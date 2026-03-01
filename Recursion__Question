@@ -1,0 +1,383 @@
+import java.util.*;
+
+public class Recursion {
+        
+      // Strng manipulation 
+     public static String remover(String str , char charr){
+      if(str.length()==0){
+        return "";
+      }
+      return helperString(str,charr,new StringBuilder(""),0);
+     }
+
+     public static String helperString(String str , char charr,StringBuilder sb,int indx){
+      if(indx==str.length()){
+        return sb.toString();
+      }
+      char ans=str.charAt(indx);
+      if(ans!=charr){
+         sb.append(ans);
+      }
+        return helperString(str, charr, sb, indx+1);
+     
+     }
+
+    
+    
+    
+     // same question but thounght is O G 
+     public static String skip(String str ){
+      if(str.isEmpty()){
+        return "";
+      }
+      if(str.charAt(0)=='a'){
+        return skip(str.substring(1));
+      }
+      return str.charAt(0)+ skip(str.substring(1));
+     }
+
+
+
+
+     // you have given a Stirng if apple occur in String skip it asn return new String 
+     public static String skipApple(String str ){
+      if(str.isEmpty()){
+        return "";
+      }
+      if(str.startsWith("apple")){
+        return skipApple(str.substring(5));
+      }
+      return str.charAt(0)+skipApple(str.substring(1));
+     }
+    
+    
+    
+    
+
+  // 1)   to print subset 
+public static void pattern2(String str, String ans){
+  if(str.isEmpty()){
+    System.out.println(ans);
+    return;
+  }
+  p(str.substring(1), ans);
+  p(str.substring(1), ans+str.charAt(0));
+}
+
+ //  2)  to print all substring in arrayList 
+
+     public static void pattern(String str , String ans, ArrayList<String> ll){
+if(str.isEmpty()){
+  ll.add(ans);
+ return ;
+}
+pattern(str.substring(1), ans+str.charAt(0),ll);
+    pattern(str.substring(1), ans,ll);
+ }
+ 
+
+
+ //  3)  to print all substring in ArrayList without taking them in argument 
+
+      public static ArrayList<String>  pattern3(String str , String ans){
+             ArrayList<String> ll = new ArrayList<>();
+
+     if(str.isEmpty()){
+      ll.add(ans);
+      return ll;
+     }         int a= str.charAt(0);
+       ArrayList<String> lll =pattern3(str.substring(1), ans+a);
+    ArrayList<String> l =pattern3(str.substring(1), ans+str.charAt(0));
+
+ ll =pattern3(str.substring(1), ans);
+      
+ll.addAll(lll);
+
+ll.addAll(l);
+
+
+
+       return ll;
+      }
+ 
+ 
+
+
+// merge sort
+public static int[] mergeSort(int arr[]){
+  int m= arr.length/2;
+
+  if(arr.length==1){
+    return arr;
+  }
+int l[]= Arrays.copyOfRange(arr, 0, m);
+int r[]=Arrays.copyOfRange(arr, m, arr.length);
+  l = mergeSort(l);
+        r = mergeSort(r);
+
+  return merge(l,r);
+}
+
+
+// merger function of merge sort
+
+
+public static int[] merge(int l[] , int r[] ){
+int arr[]= new int[l.length+r.length];
+int s=0;
+int sr=0;
+int e= l.length;
+int er=r.length;
+int k=0 ;
+while(s< e && sr < er){
+if(l[s] > r[sr]){
+  arr[k++]=r[sr++];
+}else{
+  arr[k++]=l[s++];
+}
+}
+while(s< e ){
+
+  arr[k++]=l[s++];
+
+}
+while(sr < er){
+
+  arr[k++]=r[sr++];
+
+}
+ return arr;
+
+}
+    
+
+ // merge sort in place 
+ public static void mergeinPlace(int arr[], int s , int e){
+  if(e-s==1){
+    return ;
+  }
+  int m = (s+e)/2;
+  mergeinPlace(arr,s,m);
+  mergeinPlace(arr,m,e);
+  mergerInplace(arr,s,m,e);
+ }
+
+//  merger in place 
+public static void mergerInplace(int arr[] , int s , int m , int e){
+  int ans[]= new int[e-s];
+  int i= s;
+   int j = m;
+   int k= 0;
+   while(i<m&&j<e){
+    if(arr[i] > arr[j]){
+      ans[k++]=arr[j++];
+    }else{
+      ans[k++]=arr[i++];
+    }
+   }
+
+   while(j<e){
+      ans[k++]=arr[j++];
+   
+   }
+
+   while(i<m){
+   
+      ans[k++]=arr[i++];
+    
+   }
+   for(i=0;i< e-s;i++){
+    arr[s+i]=ans[i];
+   }
+   return ;
+
+}
+
+
+
+public static void quicksort(int arr[], int l, int h) {
+    if (l >= h) return; // base case
+
+    int s = l;
+    int e = h;
+    int m = s + (e - s) / 2;
+    int p = arr[m]; // pivot
+
+    while (s <= e) {
+        while (arr[s] < p) {
+            s++;
+        }
+        while (arr[e] > p) {
+            e--;
+        }
+        if (s <= e) {
+            int t = arr[s];
+            arr[s] = arr[e];
+            arr[e] = t;
+            s++;
+            e--;
+        }
+    }
+
+    // recursive calls after partitioning
+    quicksort(arr, l, e);
+    quicksort(arr, s, h);
+}
+
+
+
+// code to print all permutation of an string 
+public static void perOfString(String str , String ans ){
+  if(str.isEmpty()||str.length()==0){
+    System.out.println(ans);
+    return ;
+
+  }
+
+  for(int i=0 ; i <= ans.length();i++){
+      char curr = str.charAt(0);
+
+        
+        perOfString(str.substring(1),ans.substring(0, i)+curr+ ans.substring(i, ans.length()) );
+  }
+  return ;
+}
+
+
+// code to print all permutation of an string and return in an ArrayList without taking ArrayList as an argumnet
+public static ArrayList<String> perOfString2(String str , String ans ){
+    ArrayList<String> l= new ArrayList<>();
+
+  if(str.isEmpty()||str.length()==0){
+  l.add(ans);
+    return l;
+
+  }
+   for(int i=0 ; i <= ans.length();i++){
+      char curr = str.charAt(0);
+
+        
+       ArrayList<String> list  =  perOfString2(str.substring(1),ans.substring(0, i)+curr+ ans.subSequence(i, ans.length()) );
+  l.addAll(list);
+  }
+  return l;
+}
+
+
+
+// code to print all permutation of an string 
+
+public static ArrayList<String> perOfString3(String str , String ans , ArrayList<String> l){
+  if(str.isEmpty()||str.length()==0){
+    l.add(ans);
+    return l;
+
+  }
+
+  for(int i=0 ; i <= ans.length();i++){
+      char curr = str.charAt(0);
+
+         perOfString3(str.substring(1),ans.substring(0, i)+curr+ ans.subSequence(i, ans.length()) ,l);
+ 
+}
+             return l ;
+}
+
+
+
+// code to print count of all  permutation of an string 
+public static int perm(String str , String ans ){
+  if(str.isEmpty()||str.length()==0){
+    System.out.println(ans);
+    return 1;
+
+  }
+  int count=0;
+
+  for(int i=0 ; i <= ans.length();i++){
+      char curr = str.charAt(0);
+
+        
+       count+= perm(str.substring(1),ans.substring(0, i)+curr+ ans.subSequence(i, ans.length()) );
+  }
+  return count;
+}
+
+
+
+
+// to print all coin toss possibility
+    public static void poss(int n,String ans){
+        if(n==0){
+            System.out.println(ans);
+            return;
+        }
+        poss(n-1, ans+"H ");
+        poss(n-1, ans+"T ");
+    }
+
+
+
+    public static void pat(String ans , int d ){
+      if(d==0){
+        System.out.println(ans);
+        return;
+      }
+      if(d<0){
+        return;
+      }
+      pat(ans+1, d-1);
+      pat(ans+2, d-2);
+      pat(ans+3, d-3);
+    }
+
+// formation of parenthesis
+public static void help(String ans, int o, int c, ArrayList<String> l) {
+    if (o == 0 && c == 0) {
+        l.add(ans); // store instead of printing
+        return;
+    }
+
+    // If we still have open brackets, we can place one
+    if (o > 0) {
+        help(ans + "(", o - 1, c, l);
+    }
+
+    // We can place a closing bracket only if there are more closing left than opening
+    if (c > o) {
+        help(ans + ")", o, c - 1, l);
+    }
+}
+
+
+// permutation
+public static void permutation(String ans , String str){
+  if(str.isEmpty()){
+    System.out.println(ans);
+    return;
+  }
+  for (int i = 0; i <= ans.length(); i++) {
+    permutation(ans.substring(0,i)+ str.charAt(0)+ans.substring(i), str.substring(1));
+  } 
+  return ;
+}
+
+
+// code to print all possibility of head and tail when n times coin is tossed 
+public static void t(String ans , int s , int s2, int e , int e2){
+  if(s==e&&s2==e2){
+    System.out.println(ans);
+    return;
+  }
+
+  if(e>s){
+    t(ans +"H", s+1, s2, e, e2);
+  }
+  if(e2> s2){
+    t(ans+"V", s, s2+1, e, e2);
+  }
+  return ;
+}
+
+
+}
